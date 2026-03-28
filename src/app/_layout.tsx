@@ -1,16 +1,57 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import React from 'react';
-import { useColorScheme } from 'react-native';
+import "@/i18n/config";
+import "../../global.css";
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import { Stack } from "expo-router";
+import React from "react";
+import { useColorScheme } from "react-native";
 
-export default function TabLayout() {
+import { AnimatedSplashOverlay } from "@/components/animated-icon";
+import { useThemePreferenceSync } from "@/hooks/use-theme-preference-sync";
+import QueryClientProvider from "@/providers/query-client-prodiver";
+import StateManagementProvider from "@/providers/state-management-provider";
+import { HeroUINativeProvider } from "heroui-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
+
+function ThemePreferenceSync() {
+  useThemePreferenceSync();
+  return null;
+}
+
+export default function RootLayout() {
   const colorScheme = useColorScheme();
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <StateManagementProvider>
+      <ThemePreferenceSync />
+      <QueryClientProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <AnimatedSplashOverlay />
+          <KeyboardProvider>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <HeroUINativeProvider>
+                <Stack screenOptions={{ headerShown: true }}>
+                  <Stack.Screen name="index" options={{ headerShown: false }} />
+                  <Stack.Screen
+                    name="(auth)/login"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                </Stack>
+              </HeroUINativeProvider>
+            </GestureHandlerRootView>
+          </KeyboardProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </StateManagementProvider>
   );
 }
