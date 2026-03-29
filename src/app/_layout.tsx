@@ -14,6 +14,7 @@ import { AnimatedSplashOverlay } from "@/components/animated-icon";
 import { useThemePreferenceSync } from "@/hooks/use-theme-preference-sync";
 import QueryClientProvider from "@/providers/query-client-prodiver";
 import StateManagementProvider from "@/providers/state-management-provider";
+import FirebaseMessagingBootstrap from "@/services/firebase-messaging-bootstrap";
 import { HeroUINativeProvider } from "heroui-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -36,6 +37,7 @@ export default function RootLayout() {
           <KeyboardProvider>
             <GestureHandlerRootView style={{ flex: 1 }}>
               <HeroUINativeProvider>
+                <FirebaseMessagingBootstrap />
                 <Stack screenOptions={{ headerShown: true }}>
                   <Stack.Screen name="index" options={{ headerShown: false }} />
                   <Stack.Screen
