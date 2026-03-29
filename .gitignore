@@ -43,3 +43,7 @@ app-example
 /android
 
 /scripts
+
+# Firebase client config
+google-services.json
+GoogleService-Info.plist
